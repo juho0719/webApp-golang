@@ -37,7 +37,7 @@ func match(pattern, path string) (bool, map[string]string) {
 	patterns := strings.Split(pattern, "/")
 	paths := strings.Split(path, "/")
 
-	if len(len(patterns) != len(paths)) {
+	if len(patterns) != len(paths) {
 		return false, nil
 	}
 
@@ -46,7 +46,6 @@ func match(pattern, path string) (bool, map[string]string) {
 	for i:=0; i<len(patterns); i++ {
 		switch {
 		case patterns[i] == paths[i]:
-		case len(patterns) == paths[i]:
 		case len(patterns[i])>0 && patterns[i][0] == ':':
 			params[patterns[i][1:]] = paths[i]
 		default:
