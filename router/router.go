@@ -1,4 +1,4 @@
-package router
+package main
 
 import (
 	"net/http"
@@ -17,16 +17,6 @@ func (r *router) HandleFunc(method, pattern string, h http.HandlerFunc) {
 	}
 
 	m[pattern] = h
-}
-
-func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	if m, ok := r.handlers[req.Method]; ok {
-		if h, ok := m[req.URL.Path]; ok {
-			h(w, req)
-			return
-		}
-	}
-	http.NotFound(w, req)
 }
 
 func match(pattern, path string) (bool, map[string]string) {
@@ -54,4 +44,16 @@ func match(pattern, path string) (bool, map[string]string) {
 	}
 
 	return true, params
+}
+
+func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	for pattern, handler := range r.handlers[req.Method] {
+		if ok, _ := match(pattern, req.URL.Path); ok {
+			handler(w, req)
+			return
+		}
+	}
+
+	http.NotFound(w, req)
+	return
 }
