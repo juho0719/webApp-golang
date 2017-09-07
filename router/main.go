@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 )
 
 func main()  {
@@ -21,11 +20,11 @@ func main()  {
 		if c.Params["id"] == "0" {
 			panic("id is zero")
 		}
-		fmt.Fprintln(c.ResponseWriter, "retrieve user %v\n", c.Params["id"])
+		fmt.Fprintf(c.ResponseWriter, "retrieve user %v\n", c.Params["id"])
 	})
 
 	s.HandleFunc("GET", "/users/:user_id/addresses/:address_id", func(c *Context) {
-		fmt.Fprintln(c.ResponseWriter, "retrieve user %v's address %v\n",
+		fmt.Fprintf(c.ResponseWriter, "retrieve user %v's address %v\n",
 			c.Params["user_id"], c.Params["address_id"])
 	})
 
@@ -34,7 +33,7 @@ func main()  {
 	})
 
 	s.HandleFunc("POST", "/users/:user_id/addresses", func(c *Context) {
-		fmt.Fprintln(c.ResponseWriter, "create user %v's address\n",
+		fmt.Fprintf(c.ResponseWriter, "create user %v's address\n",
 			c.Params["user_id"])
 	})
 

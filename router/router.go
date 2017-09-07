@@ -3,7 +3,6 @@ package main
 import (
 	"net/http"
 	"strings"
-	"path"
 )
 
 type router struct {
