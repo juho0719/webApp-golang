@@ -18,7 +18,7 @@ type Context struct {
 type HandlerFunc func(*Context)
 
 //templates : 템플릿 객체가 보관하기 위한
-var templates = map[string]*template.Template()
+var templates = map[string]*template.Template{}
 
 func (c *Context) RenderJson(v interface{}) {
 	//HTTP Status를 StatusOK로 지정
@@ -42,7 +42,7 @@ func (c *Context) RenderXml(v interface{}) {
 	//v 값을 xml로 변경
 	if err := xml.NewEncoder(c.ResponseWriter).Encode(v); err != nil {
 		//에러 발생시 RenderErr호출
-		c.RenderErr(http.StatusInternalServerError)
+		c.RenderErr(http.StatusInternalServerError, err)
 	}
 }
 
@@ -63,7 +63,7 @@ func (c *Context) RenderTemplate(path string, v interface{}) {
 	t, ok := templates[path]
 	if !ok {
 		//path에 해당하는 템플릿이 없으면 템플릿 객체 생성
-		t = template..Must(template.ParseFiles(filepath.Join(".", path)))
+		t = template.Must(template.ParseFiles(filepath.Join(".", path)))
 		templates[path] = t
 	}
 	// v 값을 템플릿 내부로 전달하여 만들어진 최종 결과를 c.ResponseWtrite에 출력
