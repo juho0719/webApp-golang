@@ -17,7 +17,7 @@ type Context struct {
 
 type HandlerFunc func(*Context)
 
-//templates : 템플릿 객체가 보관하기 위한
+//templates : 템플릿 객체가 보관하기 위한 map
 var templates = map[string]*template.Template{}
 
 func (c *Context) RenderJson(v interface{}) {

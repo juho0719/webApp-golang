@@ -22,7 +22,7 @@ func main()  {
 
 	s.HandleFunc("GET", "/", func(c *Context) {
 		c.RenderTemplate("/public/index.html", map[string]interface{}{"time" : time.Now()})
-		fmt.Fprintln(c.ResponseWriter, "welcome")
+
 	})
 
 	s.HandleFunc("GET", "/about", func(c *Context) {
